@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PasswordManager {
-
-    private ArrayList<PasswordEntry> entries;
+    private final ArrayList<PasswordEntry> entries;
 
     public PasswordManager() {
         this.entries = new ArrayList<>();
