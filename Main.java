@@ -20,6 +20,18 @@ public class Main {
 
         System.out.println(entry);
 
+        PasswordManager manager = new PasswordManager();
+
+        // manager.addEntry(entry);
+        // manager.listEntries();
+        manager.saveToFile(entry.getService(), entry.getUsername(), entry.getPassword());
+        
+        System.out.print("What service's password do you need? ");
+        String serviveNeeded = reader.nextLine();
+
+        
+        manager.loadFromFile(serviveNeeded);
+
 
     }
 }
