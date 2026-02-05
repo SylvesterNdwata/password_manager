@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 public class Main {
@@ -7,31 +8,46 @@ public class Main {
         Scanner reader = new Scanner(System.in);
         System.out.println("Welcome to the Password Manager");
 
-        System.out.print("What service's password would you like to save? ");
-        String service = reader.nextLine();
+        while (true) {
 
-        System.out.print("What is the username? ");
-        String username = reader.nextLine();
+            System.out.print("Type 1 to add a password or 2 to search for a password or leave empty to exit: ");
+            String response = reader.nextLine();
 
-        System.out.print("What is the password? ");
-        String password = reader.nextLine();
+            if (response.isEmpty()) {
+                break;
+            }
 
-        PasswordEntry entry = new PasswordEntry(service, username, password);
+            if (response.equals("1")) {
 
-        System.out.println(entry);
+                System.out.print("What service's password would you like to save? ");
+                String service = reader.nextLine();
 
-        PasswordManager manager = new PasswordManager();
+                if (service.isEmpty()) {
+                    break;
+                }
 
-        // manager.addEntry(entry);
-        // manager.listEntries();
-        manager.saveToFile(entry.getService(), entry.getUsername(), entry.getPassword());
-        
-        System.out.print("What service's password do you need? ");
-        String serviveNeeded = reader.nextLine();
+                System.out.print("What is the username? ");
+                String username = reader.nextLine();
 
-        
-        manager.loadFromFile(serviveNeeded);
+                System.out.print("What is the password? ");
+                String password = reader.nextLine();
 
+                PasswordEntry entry = new PasswordEntry(service, username, password);
+
+                System.out.println(entry);
+
+                PasswordManager manager = new PasswordManager();
+                manager.saveToFile(entry);
+            } else if (response.equals("2")) {
+                PasswordManager extract = new PasswordManager();
+
+                System.out.print("What service password are you looking for? ");
+                String serviceNeeded = reader.nextLine();
+
+                extract.loadFromFile(serviceNeeded);
+            }
+
+        }
 
     }
 }

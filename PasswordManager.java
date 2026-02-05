@@ -22,10 +22,10 @@ public class PasswordManager {
         }
     }
 
-    public void saveToFile(String service, String username, String password) {
+    public void saveToFile(PasswordEntry entry) {
         try (FileWriter writer = new FileWriter("passwords.txt", true)) {
 
-            writer.write(service.toLowerCase() + ", " + username + ", " + password + "\n");
+            writer.write(entry.getService().toLowerCase() + "," + entry.getUsername() + "," + entry.getPassword() + "\n");
             writer.close();
         } catch (IOException e) {
             System.out.println("Could not add entry to the file.");
