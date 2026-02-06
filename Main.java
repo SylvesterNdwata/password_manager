@@ -48,8 +48,17 @@ public class Main {
         System.out.print("What is the username? ");
         String username = reader.nextLine();
 
-        System.out.print("What is the password? ");
-        String password = reader.nextLine();
+        System.out.println("Would you like to generate a password? Type Y for yes and N for no. ");
+        String response = reader.nextLine();
+        String password;
+        if (response.equalsIgnoreCase("Y")) {
+            PasswordGenerator generator = new PasswordGenerator();
+            password = generator.generatePassword();
+            System.out.println("Your generated password is: " + password);
+        } else {
+            System.out.print("What is the password? ");
+            password = reader.nextLine();
+        }
 
         PasswordEntry entry = new PasswordEntry(service, username, password);
 
