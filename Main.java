@@ -32,13 +32,18 @@ public class Main {
 
         }
 
+        PasswordGenerator password = new PasswordGenerator();
+        System.out.println(password.generatePassword());
+
     }
 
     private static void addPassword(Scanner reader, PasswordManager manager) {
         System.out.print("What service's password would you like to save? ");
         String service = reader.nextLine();
 
-        if (service.isEmpty()) return;
+        if (service.isEmpty()) {
+            return;
+        }
 
         System.out.print("What is the username? ");
         String username = reader.nextLine();
@@ -55,10 +60,11 @@ public class Main {
     private static void searchPassword(Scanner reader, PasswordManager manager) {
         System.out.print("What service password are you looking for? ");
         String serviceNeeded = reader.nextLine();
-        if (serviceNeeded.isEmpty()) return; 
+        if (serviceNeeded.isEmpty()) {
+            return;
+        }
 
         manager.loadFromFile(serviceNeeded);
     }
 
-    
 }
