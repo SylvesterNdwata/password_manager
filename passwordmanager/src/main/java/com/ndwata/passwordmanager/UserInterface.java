@@ -1,10 +1,11 @@
+package com.ndwata.passwordmanager;
 
 import java.util.Scanner;
 
 public class UserInterface {
 
-    private Scanner scanner;
-    private PasswordManager manager;
+    private final Scanner scanner;
+    private final PasswordManager manager;
 
     public UserInterface(Scanner scanner, PasswordManager manager) {
         this.scanner = scanner;
@@ -13,13 +14,13 @@ public class UserInterface {
 
     public void start() {
         while (true) {
-            System.out.print("Type 1 to add a password or 2 to search for a password or leave empty to exit: ");
+            System.out.print("Type 1 to add a password or 2 to search for a password or 3 to list all passwords or leave empty to exit: ");
             String response = this.scanner.nextLine();
 
             if (response.isEmpty()) {
                 break;
             }
-            
+
             switch (response) {
                 case "1":
                     addPassword();
@@ -27,6 +28,10 @@ public class UserInterface {
 
                 case "2":
                     searchPassword();
+                    break;
+
+                case "3":
+                    listPasswords();
                     break;
 
                 default:
@@ -73,5 +78,10 @@ public class UserInterface {
         }
 
         this.manager.loadFromFile(serviceNeeded);
+    }
+
+    public void listPasswords() {
+        System.out.println("Below are all the services saved into the file");
+        this.manager.listPasswords();
     }
 }

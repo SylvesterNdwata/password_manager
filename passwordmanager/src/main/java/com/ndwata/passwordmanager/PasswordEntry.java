@@ -1,3 +1,5 @@
+package com.ndwata.passwordmanager;
+
 public class PasswordEntry {
     private final String service;
     private final String username;

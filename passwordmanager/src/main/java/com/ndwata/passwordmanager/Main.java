@@ -1,3 +1,4 @@
+package com.ndwata.passwordmanager;
 
 import java.util.Scanner;
 
