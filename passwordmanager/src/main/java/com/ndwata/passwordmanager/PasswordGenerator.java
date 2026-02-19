@@ -40,6 +40,6 @@ public class PasswordGenerator {
             password.append(c);
         }
 
-        return password.toString();
+        return password.toString().trim();
     }
 }
