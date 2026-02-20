@@ -1,12 +1,18 @@
 package com.ndwata.passwordmanager;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.nio.charset.StandardCharsets;
 
+import jdk.jshell.spi.ExecutionControl;
 public class PasswordManager {
+
     private final ArrayList<PasswordEntry> entries;
 
     public PasswordManager() {
@@ -67,6 +73,66 @@ public class PasswordManager {
             }
         } catch (IOException e) {
             System.out.println("Could not load the file");
+        }
+    }
+
+    public boolean authenticate(Scanner scanner) {
+        File f = new File("master.txt");
+
+        String storedHash = null;
+
+        if (f.exists()) {
+            try (Scanner reader = new Scanner(Paths.get("master.txt"))) {
+                if (reader.hasNextLine()) {
+                    storedHash = reader.nextLine().trim();
+                }
+            } catch (IOException e) {
+                System.out.println("Could not write to the master password file");
+            }
+        }
+
+        if (storedHash == null || storedHash.isEmpty()) {
+            System.out.println("No master password set. Please set a master password: ");
+            String masterPassword = scanner.nextLine();
+            String hash = hash(masterPassword);
+
+            try (FileWriter writer = new FileWriter(f)) {
+                writer.write(hash + "\n");
+            } catch (IOException e) {
+                System.out.println("Could not write to the master password file.");
+                return false;
+            }
+        }
+
+        System.out.println("Enter the master password: ");
+        String enteredPassword = scanner.nextLine();
+        String enteredHash = hash(enteredPassword);
+
+        if (storedHash.equals(enteredHash)) {
+            return true;
+        } else {
+            System.out.println("Incorrect master password.");
+            return false;
+        }
+    }
+
+    public String hash(String input) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+
+            StringBuilder hex = new StringBuilder();
+            for (byte b: hashBytes) {
+                String hexByte = Integer.toHexString(0xff & b);
+                if (hexByte.length() == 1) {
+                    hex.append("0");
+                }
+                hex.append(hexByte);
+            }
+
+            return hex.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("SHA-256 algorithm not available", e);
         }
     }
 }
