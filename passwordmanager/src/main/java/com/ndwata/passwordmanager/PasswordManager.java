@@ -3,14 +3,12 @@ package com.ndwata.passwordmanager;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.nio.charset.StandardCharsets;
-
-import jdk.jshell.spi.ExecutionControl;
+import java.util.ArrayList;
+import java.util.Scanner;
 public class PasswordManager {
 
     private final ArrayList<PasswordEntry> entries;
@@ -98,6 +96,8 @@ public class PasswordManager {
 
             try (FileWriter writer = new FileWriter(f)) {
                 writer.write(hash + "\n");
+                System.out.println("Master password set successfully.");
+                return true;
             } catch (IOException e) {
                 System.out.println("Could not write to the master password file.");
                 return false;

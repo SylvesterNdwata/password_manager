@@ -13,6 +13,11 @@ public class UserInterface {
     }
 
     public void start() {
+        System.out.println("Welcome to the Password Manager");
+        if (!this.manager.authenticate(this.scanner)) {
+            System.out.println("Authentication failed. Exiting the program.");
+            return;
+        }
         while (true) {
             System.out.print("Type 1 to add a password or 2 to search for a password or 3 to list all passwords or leave empty to exit: ");
             String response = this.scanner.nextLine();
